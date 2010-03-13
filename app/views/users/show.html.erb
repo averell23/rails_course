@@ -8,6 +8,14 @@
   <%=h @user.birthday %>
 </p>
 
+<p>
+	<b>Friends</b>
+	<ul>
+	<% for friend in @user.friends %>
+	<li><%= friend.name %></li>
+	<% end %>
+	</ul>
+</p>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

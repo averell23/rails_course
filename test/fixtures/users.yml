@@ -1,9 +1,13 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  name: MyString
+amy:
+  name: Amy
   birthday: 2010-03-13
 
-two:
-  name: MyString
+bob:
+  name: Bob
+  birthday: 2010-03-13
+
+eve:
+  name: Eve
   birthday: 2010-03-13

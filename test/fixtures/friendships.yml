@@ -5,3 +5,15 @@
 #
 # two:
 #   column: value
+
+amy_and_bob:
+  user: amy
+  friend: bob
+  
+bob_and_amy:
+  user: bob
+  friend: amy
+  
+amy_and_eve:
+  user: amy
+  friend: eve
