@@ -2,12 +2,25 @@
 
 amy:
   name: Amy
+  email: amy@chasing.com
   birthday: 2010-03-13
+  password_salt: <%= salt = Authlogic::Random.hex_token %>
+  crypted_password: <%= Authlogic::CryptoProviders::Sha512.encrypt("chasing" + salt) %> 
+  persistence_token: <%= Authlogic::Random.hex_token %>
+  
 
 bob:
   name: Bob
+  email: silent@bob.com
   birthday: 2010-03-13
+  password_salt: <%= salt = Authlogic::Random.hex_token %>
+  crypted_password: <%= Authlogic::CryptoProviders::Sha512.encrypt("silent" + salt) %>
+  persistence_token: <%= Authlogic::Random.hex_token %>
 
 eve:
   name: Eve
+  email: eve@paradise.com
   birthday: 2010-03-13
+  password_salt: <%= salt = Authlogic::Random.hex_token %>
+  crypted_password: <%= Authlogic::CryptoProviders::Sha512.encrypt("lilith" + salt) %>
+  persistence_token: <%= Authlogic::Random.hex_token %>

@@ -6,12 +6,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.xml
   def index
-    @users = User.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @users }
-    end
+    redirect_to current_user
   end
 
   # GET /users/1
@@ -19,7 +14,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @friendship = Friendship.new
-    @friendship.user = @user
+    @friendship.user = current_user
 
     respond_to do |format|
       format.html # show.html.erb

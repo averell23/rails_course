@@ -1,5 +1,7 @@
 <h2>User Profile of <%= @user.name %></h2>
 
+<% if((@user == current_user) || (@user.friend_of?(current_user)))%>
+
 <p>
   <b>Birthday:</b>
   <%=h @user.birthday %>
@@ -22,6 +24,20 @@
 </p>
 <% end %>
 
+<% else %>
+
+<p>
+  <b>You may only see your own details, or the ones of your friends.</b>
+   <% form_for @friendship do |f| %>
+     <%= f.hidden_field :user_id %>
+     <%= f.hidden_field :friend_id, :value => @user.id.to_s %>
+     <%= f.submit "Make this user a friend" %>
+   <% end %>
+</p>
+
+<% end %>
+
+<% if @user == current_user %>
 <h3>Add a new friend</h3>
 <% form_for @friendship do |f| %>
   <p>
@@ -31,6 +47,7 @@
   </p>
   <%= hidden_field :friendship, :user_id %>
   <%= f.submit "Register" %>
+<% end %>
 <% end %>
 
 

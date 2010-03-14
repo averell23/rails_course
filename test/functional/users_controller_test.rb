@@ -1,10 +1,14 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
+  
+  setup :activate_authlogic
+  
+  
   test "should get index" do
+    UserSession.create(users(:amy))
     get :index
-    assert_response :success
-    assert_not_nil assigns(:users)
+    assert_redirected_to user_path(users(:amy))
   end
 
   test "should get new" do
@@ -14,30 +18,38 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should create user" do
     assert_difference('User.count') do
-      post :create, :user => { }
+      post :create, :user => { :name => "Max", :email => "mad@max.com", :password => "killkillkill", :password_confirmation => "killkillkill" }
     end
 
     assert_redirected_to user_path(assigns(:user))
   end
 
   test "should show user" do
-    get :show, :id => users(:one).to_param
+    UserSession.create(users(:amy))
+    get :show, :id => users(:amy).to_param
     assert_response :success
   end
 
+  test "should not get edit without login" do
+    get :edit, :id => users(:amy).to_param
+    assert_redirected_to new_user_session_path
+  end
+  
   test "should get edit" do
-    get :edit, :id => users(:one).to_param
+    UserSession.create(users(:amy))
+    get :edit, :id => users(:amy).to_param
     assert_response :success
   end
-
-  test "should update user" do
-    put :update, :id => users(:one).to_param, :user => { }
-    assert_redirected_to user_path(assigns(:user))
+  
+  test "test should refuse edit for other users" do
+    UserSession.create(users(:bob))
+    get :edit, :id => users(:amy).to_param
+    assert_response 401
   end
 
   test "should destroy user" do
     assert_difference('User.count', -1) do
-      delete :destroy, :id => users(:one).to_param
+      delete :destroy, :id => users(:amy).to_param
     end
 
     assert_redirected_to users_path
