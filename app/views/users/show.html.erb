@@ -1,6 +1,6 @@
-<h2>User Profile of <%= @user.name %></h2>
+<h2><%= profile_head %></h2>
 
-<% if((@user == current_user) || (@user.friend_of?(current_user)))%>
+<% if(user_is_self? || @user.friend_of?(current_user))%>
 
 <p>
   <b>Birthday:</b>
@@ -12,17 +12,7 @@
   <%=h @user.email %>
 </p>
 
-<% unless @user.friends.blank? %>
-<h3>My Friends</h3>
-<p>
-	<b>Friends</b>
-	<ul>
-	<% for friend in @user.friends %>
-	<li><%= friend.name %></li>
-	<% end %>
-	</ul>
-</p>
-<% end %>
+<%= render :partial => 'friend_list', :object => @user.friends %>
 
 <% else %>
 
@@ -37,19 +27,9 @@
 
 <% end %>
 
-<% if @user == current_user %>
-<h3>Add a new friend</h3>
-<% form_for @friendship do |f| %>
-  <p>
-  <%= f.error_messages %>
-  <%= f.label :friend_email %><br />
-  <%= f.text_field :friend_email %>
-  </p>
-  <%= hidden_field :friendship, :user_id %>
-  <%= f.submit "Register" %>
-<% end %>
+<% if user_is_self? %>
+<%= render :partial => 'add_friend', :locals => { :user => @user, :friendship => @friendship } %>
 <% end %>
 
-
-<%= link_to 'Edit Profile', edit_user_path(@user) %> |
+<%=  link_to_profile_or_self %> |
 <%= link_to 'Logout', user_session_url, :method => :delete %>

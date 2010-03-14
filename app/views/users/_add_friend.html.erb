@@ -1,0 +1,12 @@
+<% if user == current_user %>
+<h3>Add a new friend</h3>
+<% form_for friendship do |f| %>
+  <p>
+  <%= f.error_messages %>
+  <%= f.label :friend_email %><br />
+  <%= f.text_field :friend_email %>
+  </p>
+  <%= hidden_field :friendship, :user_id %>
+  <%= f.submit "Register" %>
+<% end %>
+<% end %>

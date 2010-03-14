@@ -44,7 +44,7 @@ class UsersControllerTest < ActionController::TestCase
   test "test should refuse edit for other users" do
     UserSession.create(users(:bob))
     get :edit, :id => users(:amy).to_param
-    assert_response 401
+    assert_redirected_to user_path(users(:bob))
   end
 
   test "should destroy user" do
@@ -53,5 +53,33 @@ class UsersControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to users_path
+  end
+  
+  test "friend profile should have details" do
+    UserSession.create(users(:amy))
+    get :show, :id => users(:bob).to_param
+    assert_response(:success)
+    assert_template :partial => '_friend_list'
+  end
+  
+  test "non-friend profile should not have details" do
+    UserSession.create(users(:amy))
+    get :show, :id => users(:eve).to_param
+    assert_response(:success)
+    assert_template :partial => '_friend_list', :count => 0
+  end
+  
+  test "friend profile should have not have friend form" do
+    UserSession.create(users(:amy))
+    get :show, :id => users(:bob).to_param
+    assert_response(:success)
+    assert_template :partial => '_add_friend', :count => 0
+  end
+  
+  test "own profile should have friend form" do
+    UserSession.create(users(:amy))
+    get :show, :id => users(:amy).to_param
+    assert_response(:success)
+    assert_template :partial => '_add_friend'
   end
 end
