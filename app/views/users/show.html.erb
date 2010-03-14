@@ -1,13 +1,17 @@
-<p>
-  <b>Name:</b>
-  <%=h @user.name %>
-</p>
+<h2>User Profile of <%= @user.name %></h2>
 
 <p>
   <b>Birthday:</b>
   <%=h @user.birthday %>
 </p>
 
+<p>
+  <b>Email:</b>
+  <%=h @user.email %>
+</p>
+
+<% unless @user.friends.blank? %>
+<h3>My Friends</h3>
 <p>
 	<b>Friends</b>
 	<ul>
@@ -16,6 +20,19 @@
 	<% end %>
 	</ul>
 </p>
+<% end %>
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<h3>Add a new friend</h3>
+<% form_for @friendship do |f| %>
+  <p>
+  <%= f.error_messages %>
+  <%= f.label :friend_email %><br />
+  <%= f.text_field :friend_email %>
+  </p>
+  <%= hidden_field :friendship, :user_id %>
+  <%= f.submit "Register" %>
+<% end %>
+
+
+<%= link_to 'Edit Profile', edit_user_path(@user) %> |
+<%= link_to 'Logout', user_session_url, :method => :delete %>
