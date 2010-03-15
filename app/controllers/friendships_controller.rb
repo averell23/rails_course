@@ -5,6 +5,12 @@ class FriendshipsController < ApplicationController
   def create
     @friendship = Friendship.new(params[:friendship])
 
+    if(request.xhr?)
+      @friendship.save
+      @user = @friendship.user
+      render :partial => 'users/friend_list', :object => @friendship.user.friends
+    else
+
     respond_to do |format|
       if @friendship.save
         flash[:notice] = 'Added a new friend.'
@@ -16,5 +22,6 @@ class FriendshipsController < ApplicationController
         format.xml  { render :xml => @friendship.errors, :status => :unprocessable_entity }
       end
     end
+  end
   end
 end

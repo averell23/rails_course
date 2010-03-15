@@ -1,11 +1,13 @@
+<div id="friends">
 <% unless friend_list.blank? %>
 <h3>My Friends</h3>
 <p>
 	<b>Friends</b>
 	<ul>
-	<% for friend in @user.friends %>
+	<% for friend in friend_list %>
 	<li><%= link_to friend.name, user_path(friend) %></li>
 	<% end %>
 	</ul>
 </p>
 <% end %>
+</div>
